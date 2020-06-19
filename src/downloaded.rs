@@ -4,8 +4,10 @@ use std::io::BufReader;
 use std::io::prelude::*;
 
 extern crate serde_json;
+use crate::structs;
+use structs::Nerdcast;
 
-const DOWNLOADED_PATH : &str = "./data/downloaded.json";
+const DOWNLOADED_PATH : &str = "./data/downloaded.json"; //TODO: get from env var
 
 fn read_content_if_exists() -> String {
     if !Path::new(DOWNLOADED_PATH).exists() {
@@ -19,8 +21,8 @@ fn read_content_if_exists() -> String {
     contents
 }
 
-fn read_downloaded() -> Vec<i64> {
-    let mut downloaded: Vec<i64> = vec![];
+fn read_downloaded() -> Vec<Nerdcast> {
+    let mut downloaded: Vec<Nerdcast> = vec![];
     let content = read_content_if_exists();
     if !content.is_empty() {
         downloaded = serde_json::from_str(&content).unwrap();
@@ -28,9 +30,9 @@ fn read_downloaded() -> Vec<i64> {
     downloaded
 }
 
-fn save_downloaded(downloaded: Vec<i64>) ->  Vec<i64>
+fn save_downloaded(downloaded: Vec<Nerdcast>) ->  Vec<Nerdcast>
 {
-    let content = serde_json::to_string(&downloaded).expect("Error while serializing downloaded.json");
+    let content = serde_json::to_string_pretty(&downloaded).expect("Error while serializing downloaded.json");
     let mut file = File::create(DOWNLOADED_PATH).expect("Failed to created downloaded.json file");
     file.write_all(content.as_bytes()).expect("Failed to write downloade.json.file");
     downloaded
@@ -38,9 +40,9 @@ fn save_downloaded(downloaded: Vec<i64>) ->  Vec<i64>
 
 pub fn check_downloaded(id: i64) -> bool {
     let downloaded = read_downloaded();
-    for id_downloaded in downloaded
+    for downloaded_episode in downloaded
     {
-        if id_downloaded == id
+        if downloaded_episode.id == id
         {
             return true;
         }
@@ -48,9 +50,9 @@ pub fn check_downloaded(id: i64) -> bool {
     return false;
 }
 
-pub fn add_downloaded(id: i64) -> Vec<i64> {
+pub fn add_downloaded(episode: Nerdcast) -> Vec<Nerdcast> {
     let mut downloaded = read_downloaded();
-    downloaded.push(id);
+    downloaded.push(episode);
 
     save_downloaded(downloaded)
 }

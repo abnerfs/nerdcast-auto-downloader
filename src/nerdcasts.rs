@@ -1,12 +1,13 @@
 extern crate reqwest;
 
-#[path = "structs.rs"]
-mod structs;
-
-use structs::Nerdcast;
-
 use std::io;
 use std::fs::File;
+
+
+use crate::structs;
+use structs::Nerdcast;
+
+
 
 impl Nerdcast {
     pub fn get_full_name(&self) -> String {
