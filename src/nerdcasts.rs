@@ -10,7 +10,7 @@ use std::fs::File;
 
 impl Nerdcast {
     pub fn get_full_name(&self) -> String {
-        format!("{} {} - {}", self.product_name, self.episode, self.title)
+        format!("{}_{}_{}", self.product_name.to_lowercase(), self.episode, self.slug)
     }
 }
 
@@ -36,7 +36,7 @@ pub fn download_file(url: &str, path: &str, file_name: &str) {
             .path_segments()
             .and_then(|segments| segments.last())
             .and_then(|name| if name.is_empty() { None } else { Some(name) })
-            .expect("Error while gettinf file name")
+            .expect("Error while getting file name")
     };
 
     let fname = if file_name.is_empty() { get_file_name() } else { file_name };
