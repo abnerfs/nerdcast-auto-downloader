@@ -15,10 +15,13 @@ impl Nerdcast {
     }
 }
 
-pub fn get_last_nerdcasts() -> (Vec<Nerdcast>, String )
+pub fn get_last_nerdcasts(amount: i8) -> (Vec<Nerdcast>, String )
 {
-    let url = "https://jovemnerd.com.br/wp-json/jovemnerd/v1/nerdcasts?per_page=4&page=1";
-    let body : String = reqwest::blocking::get(url)
+    let amount_download = if amount == 0 { 4 }  else { amount };
+
+    let url = format!("https://jovemnerd.com.br/wp-json/jovemnerd/v1/nerdcasts?per_page={}&page=1", amount_download);
+    
+    let body : String = reqwest::blocking::get(&url)
     .unwrap()
     .text()
     .unwrap();
