@@ -11,7 +11,7 @@ use structs::Nerdcast;
 
 impl Nerdcast {
     pub fn get_full_name(&self) -> String {
-        format!("{}_{}_{}", self.product_name.to_lowercase(), self.episode, self.slug)
+        format!("{}_{}_{}", self.product_name.to_lowercase().replace(" ", "_"), self.episode, self.slug)
     }
 }
 
@@ -20,7 +20,7 @@ pub fn get_last_nerdcasts(amount: i8) -> (Vec<Nerdcast>, String )
     let amount_download = if amount == 0 { 4 }  else { amount };
 
     let url = format!("https://jovemnerd.com.br/wp-json/jovemnerd/v1/nerdcasts?per_page={}&page=1", amount_download);
-    
+
     let body : String = reqwest::blocking::get(&url)
     .unwrap()
     .text()
