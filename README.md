@@ -10,5 +10,8 @@ A configuração é feita através de variáveis de ambiente, por padrão são b
  - **NERDCAST_DOWNLOAD_PATH**: Caminho onde os nerdcasts serão baixados, padrão "/data/"
  - **NERDCAST_DOWNLOAD_AMOUNT**: Quantos nerdcasts serão baixados, padrão 4
  
+# Download
 
+- Vá na aba releases do repositório e baixe uma das versões disponíveis.
+- Eu só consegui fazer a build do programa para Windows 10 e Raspberry PI (que era o meu objetivo) por enquanto.
 
